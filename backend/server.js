@@ -3,8 +3,11 @@ const chats=require("./data/data");
 const app=express();
 const cors=require('cors')
 const dotenv=require("dotenv");
+const connectDB = require("./config/db");
 dotenv.config();
 app.use(cors());
+connectDB();
+
 app.get('/', (req,res)=>{
     res.send("API is RUNNIng");
 });
