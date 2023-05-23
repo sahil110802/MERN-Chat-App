@@ -15,7 +15,7 @@ const Homepage = () => {
     borderRadius="lg"
     borderWidth="1px"
     >
-    <Text fontSize="4xl" fontFamily="Work sans" color="black">MERN-Chat-App</Text>
+    <Text fontSize="4xl" fontFamily="Work sans" color="black" align={'center'}>MERN-Chat-App</Text>
     </Box>
     <Box 
     bg="white"
