@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, Toast, Tooltip, useDisclosure, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Spinner, Text, Toast, Tooltip, useDisclosure, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import {BellIcon, ChevronDownIcon} from "@chakra-ui/icons"
-import { ChatState } from "../../Context/ChatProvider";
+import { ChatState} from "../../Context/ChatProvider";
 import ProfileModal from "./ProfileModal";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import axios from 'axios'
@@ -13,7 +13,7 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingchat, setLoadingchat] = useState();
 
-  const {user}=ChatState();
+  const {user,setSelectedChat,chats,setChats}=ChatState();
 
   const toast=useToast();
 
@@ -28,11 +28,24 @@ const SideDrawer = () => {
         headers:{
           "Content-type":"application/json",
           Authorization:`Bearer ${user.token}`,
-        }
+        },};
+
         const {data}=await axios.post('http://localhost:5000/api/chat',{userId},config);
-      }
-    } catch (error) {
+
+        if(!chats.find((c)=>c._id===data._id))setChats([data, ...chats])
+        setSelectedChat(data);
+        setLoadingchat(false);
+        onClose();
+        
       
+    } catch (error) {
+      toast({
+  title: 'Error fetching the chats.',
+  position: 'top-left',
+  status: 'warning',
+  duration: 3000,
+  isClosable: true,
+});
     }
   }
 
@@ -60,6 +73,7 @@ const SideDrawer = () => {
         }
       }
       const {data}=await axios.get(`http://localhost:5000/api/user?search=${search}`,config)
+      console.log(data)
       setLoading(false)
       setSearchresult(data)
     } catch (error) {
@@ -140,6 +154,7 @@ const SideDrawer = () => {
         ))
       )
     }
+    {loadingchat && <Spinner ml="auto" display="flex"/>}
     </DrawerBody>
     </DrawerContent>
     </Drawer>
