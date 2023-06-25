@@ -14,6 +14,9 @@ const GroupChatModal = ({children}) => {
     const [loading, setLoading] = useState(false);
     const toast=useToast();
     const {user,chats,setChats}=ChatState();
+
+
+    
     const handleSearch=async(query)=>{
       setSearch(query)
     if (!query) {
@@ -45,7 +48,7 @@ const GroupChatModal = ({children}) => {
 
 
     const handleDelete=(delUser)=>{
-      setSelectedUsers(selectedUsers.filter((sel)=>sel._id!==delUser._id))
+      setSelectedUsers(selectedUsers.filter((sel)=>sel._id !== delUser._id))
     }
 
     const handleSubmit=async()=>{
