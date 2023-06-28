@@ -21,3 +21,18 @@ export const isLastMessage=(message,i,userId)=>{
         message[message.length-1].sender._id
     );
 }
+
+export const isSameSenderMargin=(message,m,i,userId)=>{
+    if(i<message.length-1 && 
+        message[i+1].sender._id===m.sender._id &&
+        message[i].sender._id!==userId)return 33;
+    else if((i<message.length-1 && 
+        message[i+1].sender._id!==m.sender._id &&
+        message[i].sender._id!==userId)||(i===message.length-1 && 
+        message[i].sender._id!==userId)  )return 0;
+    else return "auto";
+}
+
+export const isSameUser=(message,m,i)=>{
+    return i>0 && message[i-1].sender._id===m.sender._id;
+}
